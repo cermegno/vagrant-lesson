@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+ config.vm.box = "dummy"
+ config.vm.provider :aws do |aws, override|
+   aws.access_key_id = "ABCDEFGHTRDWDWDWX"
+   aws.secret_access_key = "avEAvdfVADF12341234132412341234"
+   aws.keypair_name = "Vagrant"
+   aws.ami = "ami-4836a428"
+   aws.region = "us-west-2"
+   aws.instance_type = "t2.micro"
+
+# The Windows version disables the synced folder functionality
+# Enable it only if you have rsync installed and in the path
+   config.vm.synced_folder '.', '/vagrant', disabled: true
+   
+#   override.vm.box = "dummy"
+   override.ssh.username = "ec2-user"
+   override.ssh.private_key_path = "C:\\Users\\{the_path}\\{to_your_public_key}\\VagrantBoxes\\aws\\Vagrant.pem"
+ end
+ 
+   config.vm.provision "shell", inline: <<-SHELL
+        sudo yum -y install python-pip
+        sudo yum -y install dos2unix
+        pip install flask
+		pip install redis
+        wget https://raw.githubusercontent.com/cermegno/Ansible-test/master/web.py
+		# I have removed also the copy of files from the synced folder`
+  SHELL
+  
+end
+
