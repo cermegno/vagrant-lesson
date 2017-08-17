@@ -10,6 +10,7 @@ Vagrant.configure(2) do |config|
    aws.ami = "ami-4836a428"
    aws.region = "us-west-2"
    aws.instance_type = "t2.micro"
+   aws.security_groups = ['default']
 
 # The Windows version disables the synced folder functionality
 # Enable it only if you have rsync installed and in the path
